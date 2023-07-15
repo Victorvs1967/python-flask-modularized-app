@@ -16,7 +16,7 @@ class Api {
       body: JSON.stringify({ 'productId': itemId }),
     })
     .then(resp => resp.json())
-    .then(new ApiNotif().calcApiCartNotif().then(new UINotif().shoeCartNotif));
+    .then(data => new ApiNotif().callApiCartNotif().then(new UINotif().showCartNotif));
   }
 }
 

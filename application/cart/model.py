@@ -15,7 +15,7 @@ class Cart:
 
   def addNewItemToCart(self, selectedProductId):
     item = self.getSelectedItem(selectedProductId)
-    cartItems = self.collections.get('carts', [{}])[0].get('items', [])
+    cartItems = self.collections.get('carts', [])[0].get('items', [])
     cartItems.append(item)
     self.collections.get('carts')[0].update({ 'items': cartItems })
     self.updateDb()
@@ -25,7 +25,7 @@ class Cart:
     db.write(json.dumps(self.collections))
 
   def removeItemFromCart(self, selectedProductId):
-    itemIndex = self.findItenInCart(selectedProductId)
+    itemIndex = self.findItemInCart(selectedProductId)
     cartItems = self.collections.get('carts', [{}])[0].get('items', [])
     cartItems.pop(itemIndex)
     self.collections.get('carts')[0].update({ 'items': cartItems })
@@ -34,7 +34,7 @@ class Cart:
   def getSelectedItem(self, selectedProductId):
     item = {}
     products = self.collections.get('products', [])
-    item = [product for product in products if str(product.get('id')) == selectedProductId]
+    item = [product for product in products if str(product.get('id')) == selectedProductId][0]
 
     if not item:
       raise Exception('Product is not found.')
@@ -44,7 +44,7 @@ class Cart:
   def findItemInCart(self, selectedProductId):
     itemIndex = None
     products = self.collections.get('carts', [{}])[0].get('items', [])
-    itemIndex = [index for index, product in enumerate(products) if str(product.get('id')) == selectedProductId]
+    itemIndex = [index for index, product in enumerate(products) if str(product.get('id')) == selectedProductId][0]
 
     if itemIndex == None:
       raise Exception('Product is not found.')
